@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { Frown } from "lucide-react";
 import MySideLogo from "@/img/mySideLogo.svg";
 import { Card } from "@/components/Card";
 import {
@@ -31,7 +32,12 @@ export default function Home() {
 
       if (!filteredProducts?.length)
         return (
-          <Image src={MySideLogo} height={150} width={150} alt="MySide logo" />
+          <div className="w-full h-screen flex items-center justify-center flex-col gap-6">
+            <Frown size={300} />
+            <span className="text-black text-3xl">
+              Nenhum produto encontrado!
+            </span>
+          </div>
         );
 
       return filteredProducts.map((product) => (
@@ -54,7 +60,14 @@ export default function Home() {
       );
 
       if (!searchedProducts?.length)
-        return <div>Nenhum produto encontrado</div>;
+        return (
+          <div className="w-full h-screen flex items-center justify-center flex-col gap-6">
+            <Frown size={300} />
+            <span className="text-black text-3xl">
+              Nenhum produto encontrado!
+            </span>
+          </div>
+        );
 
       return searchedProducts.map((product) => (
         <Card
@@ -85,45 +98,65 @@ export default function Home() {
   };
 
   return (
-    <div className="flex justify-center items-center">
-      <main className="max-w-[1080px] w-full">
-        <header className="h-16 flex items-center justify-between px-6 py-4 gap-4 bg-white">
-          <div>
-            <Image
-              src={MySideLogo}
-              height={150}
-              width={150}
-              alt="MySide logo"
-            />
-          </div>
+    <main>
+      <header className="h-16 flex items-center justify-between px-6 py-4 gap-4 bg-[#B0B0B0]">
+        <div>
+          <Image src={MySideLogo} height={150} width={150} alt="MySide logo" />
+        </div>
 
-          <Input
-            placeholder="Search"
-            onChange={(e) => setSearch(e.target.value)}
-          />
-        </header>
-        <section className="bg-[#1D64D0] h-16 px-6 py-4 flex items-center mt-7 justify-between">
-          <h1>Ofertas</h1>
-          <Select onValueChange={(value) => setSelectedCategory(value)}>
-            <SelectTrigger className="w-[280px]">
-              <SelectValue placeholder="Selecione uma categoria" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>Categorias</SelectLabel>
-                {categories?.map((product, index) => (
-                  <SelectItem key={index} value={product}>
-                    {product}
-                  </SelectItem>
-                ))}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-        </section>
-        <section className="bg-white px-6 py-4 flex flex-wrap justify-center gap-4">
-          {renderProducts()}
-        </section>
-      </main>
-    </div>
+        <Input
+          placeholder="Search"
+          onChange={(e) => setSearch(e.target.value)}
+        />
+      </header>
+      <section className="bg-[#1A237E] h-16 px-6 py-4 flex items-center justify-start lg:hidden">
+        <Select onValueChange={(value) => setSelectedCategory(value)}>
+          <SelectTrigger className="w-[280px]">
+            <SelectValue placeholder="Selecione uma categoria" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>Categorias</SelectLabel>
+              {categories?.map((product, index) => (
+                <SelectItem key={index} value={product}>
+                  {product}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+      </section>
+      <section className="hidden bg-[#1A237E] md:flex items-center justify-center">
+        <div
+          className={`flex items-center justify-center ${
+            !selectedCategory && "bg-[#E91E63]"
+          }  py-2 px-4 border-l border-[#dedede] last:border-r hover:bg-[#29B6F6]`}
+          onClick={() => setSelectedCategory("")}
+        >
+          <span className="text-white uppercase font-bold text-md cursor-pointer">
+            Todas
+          </span>
+        </div>
+        {categories?.map((product, index) => (
+          <div
+            key={index}
+            className={`flex items-center justify-center ${
+              selectedCategory === product && "bg-[#E91E63]"
+            }  py-2 px-4 border-l border-[#dedede] last:border-r hover:bg-[#29B6F6]`}
+            onClick={() => setSelectedCategory(product)}
+          >
+            <span
+              key={index}
+              className="text-white uppercase font-bold text-md cursor-pointer"
+            >
+              {product}
+            </span>
+          </div>
+        ))}
+      </section>
+      <section className="bg-white px-6 py-4 flex flex-wrap justify-center gap-4 h-1/2">
+        {renderProducts()}
+      </section>
+    </main>
   );
 }
