@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { CartProvider } from "@/context";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
@@ -20,13 +21,10 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`flex justify-center items-center ${inter.className}`}
+      className={`flex justify-center items-center h-full ${inter.className}`}
     >
       <body className="bg-black h-full max-w-[1080px] w-full">
-        {children}
-        <footer className="bg-[#B0B0B0] h-16 py-2 flex items-center justify-center border border-[#dedede] text-black">
-          <p>© {new Date().getFullYear()} MySide</p>
-        </footer>
+        <CartProvider>{children}</CartProvider>
       </body>
     </html>
   );

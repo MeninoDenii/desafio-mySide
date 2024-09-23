@@ -1,11 +1,22 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { CartContext } from "@/context";
 import { useRouter } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Frown, ShoppingCart } from "lucide-react";
 import { iProduct } from "@/interfaces/interface";
 
 import Image from "next/image";
 import MySideLogo from "@/img/mySideLogo.svg";
+import { Button } from "@/components/ui/button";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 
 export default function Page({ params }: { params: { productId: string } }) {
   const [product, setProduct] = useState<iProduct>();
@@ -24,8 +35,27 @@ export default function Page({ params }: { params: { productId: string } }) {
     fetchProduct();
   }, []);
 
+  const cartContext = useContext(CartContext);
+
+  if (!cartContext) return null;
+
+  const { addToCart, cartItems, removeFromCart } = cartContext;
+
+  const handleAddToCart = () => {
+    if (!product) return null;
+
+    addToCart({
+      id: product?.id,
+      title: product?.title,
+      price: product?.price,
+      image: product?.image,
+    });
+  };
+
+  const total = cartItems.reduce((acc, item) => acc + item.price, 0);
+
   return (
-    <div className="bg-[#F6F3EA]">
+    <div className="bg-[#B0B0B0]">
       <header className="flex items-center justify-between px-4 bg-white h-16 border-b border-[#dedede]">
         <div
           className="flex items-center gap-2 cursor-pointer"
@@ -42,7 +72,76 @@ export default function Page({ params }: { params: { productId: string } }) {
           className="cursor-pointer"
           onClick={() => router.back()}
         />
-        <div />
+
+        <div>
+          <Sheet>
+            <SheetTrigger>
+              <div className="relative inline-block">
+                <ShoppingCart size={24} className="stroke-black" />
+                {cartItems.length > 0 && (
+                  <div className="absolute -top-1 -right-1 bg-red-600 text-white rounded-full w-2 h-2 flex items-center justify-center animate-pulse" />
+                )}
+              </div>
+            </SheetTrigger>
+            <SheetContent className="flex flex-col justify-between">
+              <SheetHeader>
+                <SheetTitle>Meu Carrinho</SheetTitle>
+              </SheetHeader>
+              <SheetDescription className="text-center h-full overflow-auto pb-6">
+                {!cartItems?.length ? (
+                  <div className="flex items-center flex-col justify-center h-full">
+                    <Frown size={100} />
+                    <span className="text-black ">
+                      Nenhum produto no carrinho
+                    </span>
+                  </div>
+                ) : (
+                  <ul className="flex  flex-col gap-4 mt-3 px-4">
+                    {cartItems.map((item) => (
+                      <li
+                        className="flex items-center gap-2 border border-[#dedede] rounded-lg py-2 px-4"
+                        key={item.id}
+                      >
+                        <Image
+                          src={item.image}
+                          height={50}
+                          width={50}
+                          alt={item.title}
+                        />
+                        <div className="flex items-center flex-col justify-between gap-3">
+                          <span className="text-black">{item.title}</span>
+                          <div className="flex items-center justify-between w-full">
+                            <span className="text-black font-bold text-sm">
+                              {item.price.toLocaleString("pt-BR", {
+                                style: "currency",
+                                currency: "BRL",
+                              })}
+                            </span>
+                            <Button
+                              className="bg-red-600"
+                              onClick={() => removeFromCart(item.id)}
+                            >
+                              Remover
+                            </Button>
+                          </div>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </SheetDescription>
+              <SheetFooter className="bg-black h-16 flex py-2">
+                <span className="text-white font-bold text-3xl">
+                  Total:{" "}
+                  {total.toLocaleString("pt-BR", {
+                    style: "currency",
+                    currency: "BRL",
+                  })}
+                </span>
+              </SheetFooter>
+            </SheetContent>
+          </Sheet>
+        </div>
       </header>
       <section className="w-full flex flex-col items-center py-10 px-4 gap-6 lg:flex-row">
         <Image
@@ -59,12 +158,22 @@ export default function Page({ params }: { params: { productId: string } }) {
           <span className="text-black font-bold text-3xl">
             {product?.title}
           </span>
+
           <span className="text-black font-medium text-2xl">
             {product?.price.toLocaleString("pt-BR", {
               style: "currency",
               currency: "BRL",
             })}
           </span>
+          <Button
+            className="bg-green-600"
+            disabled={Boolean(
+              cartItems.find((item) => item.id === product?.id)
+            )}
+            onClick={handleAddToCart}
+          >
+            Adicionar ao carrinho
+          </Button>
         </div>
       </section>
       <section className="bg-white p-4 border-t border-[#dedede] ">
