@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 import { CartContext } from "@/context";
 import { useRouter } from "next/navigation";

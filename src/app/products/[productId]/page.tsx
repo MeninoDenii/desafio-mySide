@@ -2,7 +2,7 @@
 import { useEffect, useState, useContext } from "react";
 import { CartContext } from "@/context";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Frown, ShoppingCart } from "lucide-react";
+import { ArrowLeft, Frown, LoaderCircle, ShoppingCart } from "lucide-react";
 import { iProduct } from "@/interfaces/interface";
 
 import Image from "next/image";
@@ -20,19 +20,32 @@ import {
 
 export default function Page({ params }: { params: { productId: string } }) {
   const [product, setProduct] = useState<iProduct>();
+  const [loading, setLoading] = useState<boolean>(false);
 
   const fetchProduct = async () => {
     const response = await fetch(
       `https://fakestoreapi.in/api/products/${params.productId}`
     );
     const data = await response.json();
-    setProduct(data?.product);
+
+    return data;
   };
 
   const router = useRouter();
 
   useEffect(() => {
-    fetchProduct();
+    setLoading(true);
+    fetchProduct()
+      .then((data) => {
+        setProduct(data?.product);
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, []);
 
   const cartContext = useContext(CartContext);
@@ -55,7 +68,7 @@ export default function Page({ params }: { params: { productId: string } }) {
   const total = cartItems.reduce((acc, item) => acc + item.price, 0);
 
   return (
-    <div className="bg-[#B0B0B0]">
+    <div className="bg-white h-full">
       <header className="flex items-center justify-between px-4 bg-white h-16 border-b border-[#dedede]">
         <div
           className="flex items-center gap-2 cursor-pointer"
@@ -143,63 +156,71 @@ export default function Page({ params }: { params: { productId: string } }) {
           </Sheet>
         </div>
       </header>
-      <section className="w-full flex flex-col items-center py-10 px-4 gap-6 lg:flex-row">
-        <Image
-          src={product?.image || ""}
-          width={400}
-          height={400}
-          alt={product?.title || ""}
-          className="rounded-lg"
-        />
-        <div className="flex flex-col justify-center gap-4">
-          <span className="bg-[#FCBB14] flex justify-center p-2 w-fit rounded-lg text-xs uppercase text-[#5D2318] font-bold">
-            {product?.category}
-          </span>
-          <span className="text-black font-bold text-3xl">
-            {product?.title}
-          </span>
+      {loading ? (
+        <div className="flex items-center justify-center h-full">
+          <LoaderCircle className="animate-spin stroke-blue-800" />
+        </div>
+      ) : (
+        <>
+          <section className="w-full flex flex-col items-center bg-[#DCDCDC] py-10 px-4 gap-6 lg:flex-row">
+            <Image
+              src={product?.image || ""}
+              width={400}
+              height={400}
+              alt={product?.title || ""}
+              className="rounded-lg"
+            />
+            <div className="flex flex-col justify-center gap-4">
+              <span className="bg-[#FCBB14] flex justify-center p-2 w-fit rounded-lg text-xs uppercase text-[#5D2318] font-bold">
+                {product?.category}
+              </span>
+              <span className="text-black font-bold text-3xl">
+                {product?.title}
+              </span>
 
-          <span className="text-black font-medium text-2xl">
-            {product?.price.toLocaleString("pt-BR", {
-              style: "currency",
-              currency: "BRL",
-            })}
-          </span>
-          <Button
-            className="bg-green-600"
-            disabled={Boolean(
-              cartItems.find((item) => item.id === product?.id)
-            )}
-            onClick={handleAddToCart}
-          >
-            Adicionar ao carrinho
-          </Button>
-        </div>
-      </section>
-      <section className="bg-white p-4 border-t border-[#dedede] ">
-        <h2 className="font-bold uppercase">Descrição</h2>
-        <p className="mt-2">{product?.description}</p>
-      </section>
+              <span className="text-black font-medium text-2xl">
+                {product?.price.toLocaleString("pt-BR", {
+                  style: "currency",
+                  currency: "BRL",
+                })}
+              </span>
+              <Button
+                className="bg-green-600"
+                disabled={Boolean(
+                  cartItems.find((item) => item.id === product?.id)
+                )}
+                onClick={handleAddToCart}
+              >
+                Adicionar ao carrinho
+              </Button>
+            </div>
+          </section>
+          <section className="bg-white p-4 border-t border-[#dedede] h-fit ">
+            <h2 className="font-bold uppercase">Descrição</h2>
+            <p className="mt-2">{product?.description}</p>
+          </section>
 
-      <section className="bg-white p-4 border-t border-[#dedede] ">
-        <h2 className="font-bold uppercase">informações</h2>
-        <div className="flex items-center gap-1 mt-2">
-          <span className="font-bold">Fabricante:</span>
-          <span className="capitalize">{product?.brand}</span>
-        </div>
-        <div className="flex items-center gap-1 mt-2">
-          <span className="font-bold">Modelo:</span>
-          <span className="capitalize">{product?.model}</span>
-        </div>
-        <div className="flex items-center gap-1 mt-2">
-          <span className="font-bold">Categoria:</span>
-          <span className="capitalize">{product?.category}</span>
-        </div>
-        <div className="flex items-center gap-1 mt-2">
-          <span className="font-bold">Cor:</span>
-          <span className="capitalize">{product?.color}</span>
-        </div>
-      </section>
+          <section className="bg-white p-4 border-t border-[#dedede] ">
+            <h2 className="font-bold uppercase">informações</h2>
+            <div className="flex items-center gap-1 mt-2">
+              <span className="font-bold">Fabricante:</span>
+              <span className="capitalize">{product?.brand}</span>
+            </div>
+            <div className="flex items-center gap-1 mt-2">
+              <span className="font-bold">Modelo:</span>
+              <span className="capitalize">{product?.model}</span>
+            </div>
+            <div className="flex items-center gap-1 mt-2">
+              <span className="font-bold">Categoria:</span>
+              <span className="capitalize">{product?.category}</span>
+            </div>
+            <div className="flex items-center gap-1 mt-2">
+              <span className="font-bold">Cor:</span>
+              <span className="capitalize">{product?.color}</span>
+            </div>
+          </section>
+        </>
+      )}
     </div>
   );
 }

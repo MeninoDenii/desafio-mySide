@@ -2,7 +2,7 @@
 
 import { useContext } from "react";
 import Image from "next/image";
-import { Frown, ShoppingCart } from "lucide-react";
+import { Frown, ShoppingCart, LoaderCircle } from "lucide-react";
 import { CartContext } from "@/context";
 import MySideLogo from "@/img/mySideLogo.svg";
 import { Card } from "@/components/Card";
@@ -33,7 +33,7 @@ export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState<string>("Todas");
   const [search, setSearch] = useState<string>("");
 
-  const { products } = useGetProducts();
+  const { products, loading } = useGetProducts();
   const { categories } = useGetCategory();
 
   const renderProducts = () => {
@@ -277,7 +277,13 @@ export default function Home() {
         ))}
       </section>
       <section className="bg-white px-6 py-4 flex flex-wrap justify-center gap-4 h-full max-h-full overflow-auto">
-        {renderProducts()}
+        {loading ? (
+          <div className="flex items-center justify-center h-full">
+            <LoaderCircle className="animate-spin stroke-blue-800" />
+          </div>
+        ) : (
+          <>{renderProducts()}</>
+        )}
       </section>
     </main>
   );
