@@ -66,5 +66,6 @@ Caso queira rodar os testes unitários da aplicação basta usar o comando:
 - [React](https://react.dev/reference/react)
 - [TailwindCSS](https://tailwindcss.com/docs/installation)
 - [Jest](https://jestjs.io/pt-BR/)
+- [shadcn](https://ui.shadcn.com/)
 
 
