@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { CartProvider } from "@/context";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
@@ -8,8 +9,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Profile",
-  description: "Skills and projects of a software developer frontend",
+  title: "MySide",
+  description: "A simple blog",
 };
 
 export default function RootLayout({
@@ -18,8 +19,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={inter.className}>
-      <body>{children}</body>
+    <html
+      lang="en"
+      className={`flex justify-center items-center h-full ${inter.className}`}
+    >
+      <body className="bg-black h-full max-w-[1080px] w-full">
+        <CartProvider>{children}</CartProvider>
+      </body>
     </html>
   );
 }
