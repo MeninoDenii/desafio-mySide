@@ -23,12 +23,6 @@ export const CartContext = createContext<CartContextType | undefined>(
   undefined
 );
 
-// export const CartContext = createContext<CartContextType>({
-//   cartItems: [],
-//   addToCart: () => {},
-//   removeFromCart: () => {},
-// });
-
 export const CartProvider = ({ children }: CartProviderProps) => {
   const [cartItems, setCartItems] = useState<iCart[]>([]);
 

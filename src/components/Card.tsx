@@ -64,6 +64,7 @@ export const Card: React.FC<iCard> = ({
           </span>
           {!cartItems.find((item) => item.id === id) && (
             <CirclePlus
+              data-testid="button"
               className="stroke-green-600"
               size={24}
               onClick={handleAddToCart}
