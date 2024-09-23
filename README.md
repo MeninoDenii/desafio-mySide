@@ -1,8 +1,31 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<h1 align="center">
+    <a href="https://desafio-my-side.vercel.app/">🔗 Desafio MySide</a>
+</h1>
 
-## Getting Started
+<p>
+<img loading="lazy" src="http://img.shields.io/static/v1?label=STATUS&message=EM%20DESENVOLVIMENTO&color=GREEN&style=for-the-badge"/>
+</p>
 
-First, run the development server:
+## Descrição do Projeto
+
+
+
+<p align="center">🚀 O projeto é um desafio proposto pela empresa MySide, no qual foi desenvolvida uma aplicação em Next.JS que consome uma API pública externa https://fakestoreapi.in/. A aplicação exibe, na tela principal, cards contendo a imagem, o título, o preço e uma breve descrição dos produtos.</p>
+
+# :hammer: Funcionalidades do projeto
+
+- `Pesquisa e filtragem de produtos`: Pesquisar produtos pelo título ou categoria
+- `Detalhes específicos de um produto`: Ao clicar em um card o usuário será redirecionado para uma página onde serão apresentados todos os detalhes do produto que o mesmo selecionou.
+- `Adicionar produtos ao carrinho`: Clicando no botão verde dos cards o usuário poderá adicionar produtos ao carrinho, onde os mesmos serão exibidos em um sheet à esquerda que apresenta os produtos selecionados.
+
+# 📁 Acesso ao projeto
+
+**O projeto está hospedado na Vercel na seguinte url  <a href="https://desafio-my-side.vercel.app/">🔗 Desafio MySide</a>**
+
+# 🛠️ Abrir e rodar o projeto localmente
+
+Para rodar o projeto localmente você precisa usar o comando ```yarn install  ou npm install```
+Feito isso basta utilizar os comandos abaixo para rodar o projeto localmente
 
 ```bash
 npm run dev
@@ -14,23 +37,31 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+O projeto será iniciado na URL [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Caso queira rodar os testes unitários da aplicação basta usar o comando:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+ npm test
+ # or
+ yarn test
+```
 
-## Learn More
+## ✔️ Tecnologias Utilizadas
 
-To learn more about Next.js, take a look at the following resources:
+<ul>
+  <li>
+    NextJS
+  </li>
+   <li>
+    TailwindCSS
+  </li>
+   <li>
+    ShadcnUI
+  </li>
+    <li>
+    Jest
+  </li>
+</ul>
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
