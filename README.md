@@ -22,9 +22,21 @@
 
 **O projeto está hospedado na Vercel na seguinte url  <a href="https://desafio-my-side.vercel.app/">🔗 Desafio MySide</a>**
 
+
+```bash
+# Clone este repositório
+$ git clone <https://github.com/MeninoDenii/desafio-mySide>
+
+# Acesse a pasta do projeto no terminal/cmd
+$ cd my-side
+
+# Instale as dependências
+$ npm install ou yarn install
+
+```
+
 # 🛠️ Abrir e rodar o projeto localmente
 
-Para rodar o projeto localmente você precisa usar o comando ```yarn install  ou npm install```
 Feito isso basta utilizar os comandos abaixo para rodar o projeto localmente
 
 ```bash
@@ -49,19 +61,10 @@ Caso queira rodar os testes unitários da aplicação basta usar o comando:
 
 ## ✔️ Tecnologias Utilizadas
 
-<ul>
-  <li>
-    NextJS
-  </li>
-   <li>
-    TailwindCSS
-  </li>
-   <li>
-    ShadcnUI
-  </li>
-    <li>
-    Jest
-  </li>
-</ul>
+- [NextJS](https://nextjs.org/docs)
+- [Typescript](https://www.typescriptlang.org/pt/docs/handbook/jsx.html)
+- [React](https://react.dev/reference/react)
+- [TailwindCSS](https://tailwindcss.com/docs/installation)
+- [Jest](https://jestjs.io/pt-BR/)
 
 
